@@ -20,13 +20,13 @@ export default function Footer() {
           {/* Links */}
           <div className="flex gap-8 md:gap-12">
             <a
-              href="#about"
+              href="/about"
               className="text-sm uppercase tracking-wide-caps text-gray-400 hover:text-white transition-colors duration-300"
             >
               About
             </a>
             <a
-              href="#contact"
+              href="/contact"
               className="text-sm uppercase tracking-wide-caps text-gray-400 hover:text-white transition-colors duration-300"
             >
               Contact

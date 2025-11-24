@@ -5,8 +5,8 @@ import Logo from "./Logo";
 
 export default function Navbar() {
   const navLinks = [
-    { name: "About", href: "#about" },
-    { name: "Contact", href: "#contact" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
   ];
 
   return (

@@ -38,10 +38,13 @@ export default function Hero() {
             transition={{ duration: 1, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="mt-12 md:mt-16"
           >
-            <button className="group relative px-10 py-4 text-sm uppercase tracking-wide-caps font-medium border border-white rounded-full overflow-hidden transition-all duration-500 hover:text-black">
+            <a
+              href="/contact"
+              className="group relative inline-block px-10 py-4 text-sm uppercase tracking-wide-caps font-medium border border-white rounded-full overflow-hidden transition-all duration-500 hover:text-black"
+            >
               <span className="relative z-10">{siteConfig.hero.ctaText}</span>
               <span className="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-            </button>
+            </a>
           </motion.div>
         </div>
       </div>
