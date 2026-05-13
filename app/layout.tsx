@@ -3,7 +3,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Volcrest Capital",
-  description: "Private Capital Focused on Future Technology",
+  description:
+    "Volcrest Capital builds LLM systems, infrastructure, and applied software across local and cloud environments.",
   icons: {
     icon: '/icon.svg',
   },

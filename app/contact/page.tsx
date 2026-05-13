@@ -27,7 +27,7 @@ export default function ContactPage() {
             transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="text-xl md:text-2xl text-gray-400 font-light mb-12 md:mb-16"
           >
-            For inquiries, reach out via email.
+            For technical, strategic, or investment enquiries, reach out via email.
           </motion.p>
 
           {/* Email */}

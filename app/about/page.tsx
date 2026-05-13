@@ -28,23 +28,23 @@ export default function AboutPage() {
             className="space-y-8 text-lg md:text-xl text-gray-400 leading-relaxed font-light max-w-4xl"
           >
             <p>
-              Rick Botley began his career in technology, graduating with a Computer Science degree before moving into commodities trading.
+              Rick Botley studied Computer Science before beginning his career in shipbroking and global commodities, building a foundation in both technical systems and commercial execution.
             </p>
 
             <p>
-              He spent 16 years at Shell Trading, working across oil shipping, physical cargo trading, and derivatives, gaining experience in complex risk, market structure, and global energy flows. He later spent two years in the private sector in a similar capacity, operating with greater commercial flexibility and a more entrepreneurial mandate.
+              He spent more than 15 years at Shell Trading and later 3 years at Navigate, working across freight, shipping, market structure, and decision-making in complex international markets.
             </p>
 
             <p>
-              In 2021, Rick stepped away from institutional trading to focus exclusively on managing his own private capital. This developed into Volcrest Capital, a privately held investment vehicle used solely for the management of his personal assets and long-term holdings.
+              Volcrest Capital reflects that combination of backgrounds. The work now centres on LLM systems, containerised services, automation, and software that can be deployed across local machines and cloud environments.
             </p>
 
             <p>
-              The approach reflects his background: thoughtful risk-taking and a willingness to accept periods of volatility when the long-term value proposition is compelling. As a personal investment portfolio, it has experienced both meaningful drawdowns and strong compounding, consistent with a high-risk, high-reward philosophy. Since 2021, the portfolio has achieved approximately 25.5% annualised returns, alongside high volatility, reflecting this personal strategy.
+              The edge is not generic SaaS positioning. It is a mix of technical grounding, operational awareness, and experience in high-value workflows where clarity, speed, and control matter.
             </p>
 
             <p>
-              Today, Volcrest Capital allocates Rick's own capital across areas such as advanced computing, energy infrastructure, defence innovation, and other selective long-term opportunities.
+              Today, Volcrest sits at the intersection of applied software, infrastructure, and selective long-term technology opportunities.
             </p>
           </motion.div>
         </div>
