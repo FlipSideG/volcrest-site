@@ -4,13 +4,13 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <>
+    <div className="min-h-screen bg-black flex flex-col overflow-hidden">
       <Navbar />
-      <main className="min-h-screen bg-black">
+      <main className="flex-1">
         <Hero />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
 

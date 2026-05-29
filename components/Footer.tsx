@@ -4,9 +4,9 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-gray-800 py-12 md:py-16">
+    <footer className="border-t border-gray-800 py-5 md:py-6 shrink-0">
       <div className="w-full px-6 md:px-12 lg:px-16 max-w-container mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-8">
           {/* Logo/Brand */}
           <div className="flex flex-col leading-none">
             <span className="font-serif text-xl font-light tracking-tight text-white">
