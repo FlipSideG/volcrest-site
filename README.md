@@ -16,6 +16,12 @@ npm run dev
 
 3. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+## Extras
+
+### Verbi — Italian verb flashcards (`/italiano`)
+
+A standalone offline-first PWA served from `public/italiano/`. Open `/italiano` on a phone, add it to the home screen, and it works fully offline (service worker cache) with spaced-repetition flashcards, conjugation tables and quizzes for 230+ Italian verbs, plus Italian text-to-speech. It has no dependency on the Next.js app beyond being served from `public/`.
+
 ## Tech Stack
 
 - **Next.js 14** with App Router

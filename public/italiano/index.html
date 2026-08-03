@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10151c">
+<title>Verbi — Italian Verb Flashcards</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+  :root {
+    --bg: #10151c; --panel: #1a212b; --panel2: #232c38; --text: #e8edf3;
+    --muted: #8a97a6; --green: #009246; --red: #ce2b37; --accent: #3fa66a;
+    --gold: #e0b04f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    overscroll-behavior: none;
+  }
+  .screen { display: none; max-width: 560px; margin: 0 auto; padding: 16px; min-height: 100vh; }
+  .screen.active { display: flex; flex-direction: column; }
+  .topbar { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .topbar h2 { font-size: 18px; font-weight: 600; flex: 1; }
+  .backBtn { background: var(--panel); border: none; color: var(--text); font-size: 16px; padding: 8px 14px; border-radius: 10px; }
+  .flag { display: inline-block; width: 24px; height: 16px; border-radius: 3px; overflow: hidden; vertical-align: middle;
+    background: linear-gradient(90deg, var(--green) 33.3%, #fff 33.3% 66.6%, var(--red) 66.6%); }
+
+  /* Home */
+  .hero { text-align: center; padding: 28px 0 18px; }
+  .hero h1 { font-size: 32px; letter-spacing: 1px; }
+  .hero p { color: var(--muted); margin-top: 6px; font-size: 14px; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 18px 0; }
+  .stat { background: var(--panel); border-radius: 12px; padding: 12px 4px; text-align: center; }
+  .stat b { display: block; font-size: 22px; }
+  .stat span { font-size: 11px; color: var(--muted); }
+  .menu { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .menu button {
+    background: var(--panel); color: var(--text); border: none; border-radius: 14px;
+    padding: 18px; font-size: 17px; font-weight: 600; text-align: left; cursor: pointer;
+  }
+  .menu button.primary { background: linear-gradient(135deg, #0b6e3a, #009246); }
+  .help { margin-top: 18px; background: var(--panel); border-radius: 14px; padding: 14px; font-size: 13px; color: var(--muted); line-height: 1.55; }
+  .help b { color: var(--text); }
+  .help summary { color: var(--text); font-weight: 600; cursor: pointer; font-size: 14px; }
+
+  /* Card */
+  #progress { color: var(--muted); font-size: 14px; }
+  #newBadge { background: var(--gold); color: #222; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 8px; display: none; }
+  #card { flex: 1; background: var(--panel); border-radius: 18px; padding: 22px 16px; overflow-y: auto; cursor: pointer;
+    display: flex; flex-direction: column; border-top: 4px solid var(--green); border-bottom: 4px solid var(--red); }
+  #card.flipped #cardFront, #card:not(.flipped) #cardBack { display: none; }
+  #cardFront { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; gap: 14px; }
+  .big { font-size: 30px; font-weight: 700; text-align: center; word-break: break-word; }
+  .hint { color: var(--muted); font-size: 13px; }
+  .meta { color: var(--muted); font-size: 14px; text-align: center; margin: 10px 0 14px; line-height: 1.5; }
+  .meta b { color: var(--text); }
+  .mini { background: var(--panel2); border: none; color: var(--text); border-radius: 10px; padding: 8px 14px; font-size: 15px; }
+  #cardBack .big { margin-bottom: 4px; }
+  #cardBack .spk-btn { display: block; margin: 8px auto 0; }
+  #gradeRow { display: none; gap: 8px; margin-top: 12px; }
+  #gradeRow button { flex: 1; border: none; border-radius: 12px; padding: 14px 4px; font-size: 15px; font-weight: 700; color: #fff; }
+  .g-again { background: #a33; } .g-hard { background: #a07a2a; } .g-good { background: #2c7a4b; } .g-easy { background: #2a6fa0; }
+
+  /* Conjugation table */
+  .tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; }
+  .tab { background: var(--panel2); color: var(--muted); border: none; border-radius: 9px; padding: 7px 11px; font-size: 13px; white-space: nowrap; }
+  .tab.on { background: var(--green); color: #fff; }
+  .ctable { background: var(--panel2); border-radius: 12px; overflow: hidden; }
+  .crow { display: flex; align-items: center; padding: 9px 12px; gap: 10px; border-bottom: 1px solid rgba(255,255,255,.05); cursor: pointer; }
+  .crow:last-child { border-bottom: none; }
+  .pers { color: var(--muted); font-size: 13px; width: 56px; flex-shrink: 0; }
+  .form { flex: 1; font-size: 16px; font-weight: 600; }
+  .spk { opacity: .45; font-size: 13px; }
+
+  /* Quiz */
+  #quizPrompt { background: var(--panel); border-radius: 18px; padding: 30px 16px; text-align: center;
+    border-top: 4px solid var(--green); border-bottom: 4px solid var(--red); }
+  .qverb { font-size: 30px; font-weight: 700; }
+  .qmeta { color: var(--muted); margin-top: 6px; }
+  .qask { margin-top: 18px; font-size: 18px; }
+  .qask b { color: var(--gold); }
+  #quizAnswer { text-align: center; margin: 20px 0; min-height: 46px; }
+  .qform { font-size: 28px; font-weight: 700; color: var(--accent); }
+  #quizReveal { width: 100%; background: var(--panel2); color: var(--text); border: none; border-radius: 12px; padding: 16px; font-size: 16px; font-weight: 700; }
+  #quizJudge { display: none; gap: 10px; }
+  #quizJudge button { flex: 1; border: none; border-radius: 12px; padding: 16px; font-size: 16px; font-weight: 700; color: #fff; }
+  #quizWrong { background: #a33; } #quizRight { background: #2c7a4b; }
+  #quizScore { color: var(--muted); font-size: 14px; }
+
+  /* Browse */
+  #searchBox { width: 100%; background: var(--panel); border: none; color: var(--text); border-radius: 12px; padding: 13px 14px; font-size: 16px; margin-bottom: 10px; }
+  #verbList { background: var(--panel); border-radius: 14px; overflow: hidden; }
+  .vrow { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,.05); cursor: pointer; }
+  .vit { font-weight: 700; font-size: 16px; }
+  .ven { flex: 1; color: var(--muted); font-size: 13px; text-align: right; }
+  #detail { position: fixed; inset: 0; background: var(--bg); display: none; z-index: 10; overflow-y: auto; }
+  #detail.open { display: block; }
+  #detailInner { max-width: 560px; margin: 0 auto; padding: 16px; }
+  #detailClose { background: var(--panel); border: none; color: var(--text); border-radius: 10px; padding: 8px 14px; font-size: 16px; margin-bottom: 14px; }
+
+  /* Settings */
+  .setrow { background: var(--panel); border-radius: 12px; padding: 13px 14px; margin-bottom: 8px;
+    display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 15px; flex-wrap: wrap; }
+  .setrow select, .setrow input[type=range] { background: var(--panel2); color: var(--text); border: none; border-radius: 8px; padding: 8px; font-size: 14px; max-width: 55%; }
+  .setrow input[type=checkbox] { width: 20px; height: 20px; accent-color: var(--green); }
+  #tenseChks { display: flex; flex-direction: column; gap: 8px; width: 100%; margin-top: 6px; }
+  #tenseChks label { display: flex; gap: 10px; align-items: center; font-size: 14px; color: var(--muted); }
+  #testVoiceBtn, #resetBtn { width: 100%; border: none; border-radius: 12px; padding: 14px; font-size: 15px; font-weight: 600; margin-top: 8px; }
+  #testVoiceBtn { background: var(--panel2); color: var(--text); }
+  #resetBtn { background: #5a2028; color: #f2c8cd; }
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div class="screen active" id="home">
+  <div class="hero">
+    <h1><span class="flag"></span> Verbi</h1>
+    <p>Italian verb flashcards · works fully offline</p>
+  </div>
+  <div class="stats">
+    <div class="stat"><b id="statTotal">0</b><span>verbs</span></div>
+    <div class="stat"><b id="statStarted">0</b><span>started</span></div>
+    <div class="stat"><b id="statMastered">0</b><span>mastered</span></div>
+    <div class="stat"><b id="statDue">0</b><span>due now</span></div>
+  </div>
+  <div class="menu">
+    <button class="primary" id="studyBtn">Study</button>
+    <button id="quizBtn">Conjugation quiz</button>
+    <button id="browseBtn">Browse all verbs</button>
+    <button id="settingsBtn">Settings</button>
+  </div>
+  <details class="help">
+    <summary>✈️ Set up before your flight (offline audio)</summary>
+    <p style="margin-top:8px">
+      <b>1.</b> Open this page once while online, then in Chrome tap <b>⋮ → Add to Home screen</b>. The app and all verbs are saved on your phone.<br><br>
+      <b>2.</b> For spoken Italian offline: Android <b>Settings → System → Languages → Text-to-speech output → Google Speech Services → ⚙ → Install voice data → Italiano</b>. This downloads a proper Italian voice that works in airplane mode.<br><br>
+      <b>3.</b> On the plane: airplane mode on, then re-enable <b>Bluetooth</b> and connect your AirPods. Tap 🔊 or any conjugation row to hear it.<br><br>
+      <b>4.</b> Test it now: go to Settings below and press "Test voice" with Wi-Fi off.
+    </p>
+  </details>
+</div>
+
+<!-- STUDY -->
+<div class="screen" id="study">
+  <div class="topbar">
+    <button class="backBtn">←</button>
+    <h2>Study</h2>
+    <span id="newBadge">NEW</span>
+    <span id="progress"></span>
+  </div>
+  <div id="card">
+    <div id="cardFront"></div>
+    <div id="cardBack"></div>
+  </div>
+  <div id="gradeRow">
+    <button class="g-again" data-g="again">Again</button>
+    <button class="g-hard" data-g="hard">Hard</button>
+    <button class="g-good" data-g="good">Good</button>
+    <button class="g-easy" data-g="easy">Easy</button>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="screen" id="quiz">
+  <div class="topbar">
+    <button class="backBtn">←</button>
+    <h2>Conjugation quiz</h2>
+    <span id="quizScore"></span>
+  </div>
+  <div id="quizPrompt"></div>
+  <div id="quizAnswer"></div>
+  <button id="quizReveal">Show answer</button>
+  <div id="quizJudge">
+    <button id="quizWrong">✗ Missed it</button>
+    <button id="quizRight">✓ Got it</button>
+  </div>
+</div>
+
+<!-- BROWSE -->
+<div class="screen" id="browse">
+  <div class="topbar">
+    <button class="backBtn">←</button>
+    <h2>All verbs</h2>
+  </div>
+  <input id="searchBox" type="search" placeholder="Search Italian or English…" autocomplete="off">
+  <div id="verbList"></div>
+</div>
+
+<!-- SETTINGS -->
+<div class="screen" id="settings">
+  <div class="topbar">
+    <button class="backBtn">←</button>
+    <h2>Settings</h2>
+  </div>
+  <div class="setrow"><span>Card direction</span>
+    <select id="dirSel">
+      <option value="it-en">Italian → English</option>
+      <option value="en-it">English → Italian</option>
+      <option value="mixed">Mixed</option>
+    </select>
+  </div>
+  <div class="setrow"><span>Auto-speak Italian</span><input type="checkbox" id="autoSpeakChk"></div>
+  <div class="setrow"><span>Voice</span><select id="voiceSel"></select></div>
+  <div class="setrow"><span>Speech speed <b id="rateVal"></b></span>
+    <input type="range" id="rateRange" min="0.5" max="1.2" step="0.1">
+  </div>
+  <div class="setrow"><span>New cards per session</span>
+    <select id="newSel">
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="40">40</option>
+      <option value="-1">No limit</option>
+    </select>
+  </div>
+  <div class="setrow"><span>Quiz verbs</span>
+    <select id="poolSel">
+      <option value="studied">Only verbs I've studied</option>
+      <option value="all">All verbs</option>
+    </select>
+  </div>
+  <div class="setrow"><span>Quiz tenses</span>
+    <div id="tenseChks">
+      <label><input type="checkbox" value="presente"> Presente</label>
+      <label><input type="checkbox" value="passato"> Passato prossimo</label>
+      <label><input type="checkbox" value="imperfetto"> Imperfetto</label>
+      <label><input type="checkbox" value="futuro"> Futuro</label>
+      <label><input type="checkbox" value="condizionale"> Condizionale</label>
+    </div>
+  </div>
+  <button id="testVoiceBtn">🔊 Test voice</button>
+  <button id="resetBtn">Reset all progress</button>
+</div>
+
+<!-- DETAIL OVERLAY -->
+<div id="detail">
+  <div id="detailInner">
+    <button id="detailClose">← Back</button>
+    <div id="detailBody"></div>
+  </div>
+</div>
+
+<script src="verbs.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
